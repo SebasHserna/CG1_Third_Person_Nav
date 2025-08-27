@@ -15,8 +15,13 @@ public class AnimatorManager : MonoBehaviour
 
     }
 
-    public void UpdateAnimatorValues(float horizontalMovement, float verticalMovement)
+    public void UpdateAnimatorValues(float horizontalMovement, float verticalMovement, bool isRunning)
     {
+        if (isRunning)
+        {
+            verticalMovement = 2;
+        }
+
         animator.SetFloat(horizontal, horizontalMovement, 0.1f, Time.deltaTime);
         animator.SetFloat(vertical, verticalMovement, 0.1f, Time.deltaTime);
     }

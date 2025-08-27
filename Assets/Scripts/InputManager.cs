@@ -13,10 +13,14 @@ public class InputManager : MonoBehaviour
     AnimatorManager animatorManager;
     public float moveAmount;
 
+    PlayerMovement playerMovement;
+    public bool shiftInput;
+
 
     private void Awake()
     {
         animatorManager = GetComponent<AnimatorManager>();
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
 
@@ -26,6 +30,8 @@ public class InputManager : MonoBehaviour
         {
             playerControls = new PlayerControls();
             playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
+            playerControls.PlayerActions.Shift.performed += i => shiftInput = true;
+            playerControls.PlayerActions.Shift.canceled += i => shiftInput = false;
         }
         playerControls.Enable();
 
@@ -44,12 +50,25 @@ public class InputManager : MonoBehaviour
 
         moveAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
 
-        animatorManager.UpdateAnimatorValues(0, moveAmount);
+        animatorManager.UpdateAnimatorValues(0, moveAmount, playerMovement.isRunning);
     }
 
     public void HaandleAllInputs()
     {
         HandleMovementInput ();
+        HandleRunningInput ();
 
     }
+
+    public void HandleRunningInput()
+    {
+        if (shiftInput && moveAmount > 0.5f)
+            playerMovement.isRunning = true;
+        else
+            playerMovement.isRunning = false;
+    }
+
+
+
+
 }

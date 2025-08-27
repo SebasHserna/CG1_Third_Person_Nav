@@ -8,8 +8,11 @@ public class PlayerMovement : MonoBehaviour
     Vector3 moveDirection;
     Transform cameraObject;
     Rigidbody playerRigidbody;
-    public float movementSpeed = 7;
+    public float walkingSpeed = 2.5f;
+    public float runningSpeed = 7;
     public float rotationSpeed = 14;
+
+    public bool isRunning;
 
 
 
@@ -31,7 +34,19 @@ public class PlayerMovement : MonoBehaviour
 
         moveDirection.Normalize();
 
-        moveDirection = moveDirection * movementSpeed;
+
+
+        if (isRunning)
+        {
+
+            moveDirection = moveDirection * runningSpeed;
+
+        }
+        else
+        {
+            moveDirection = moveDirection * walkingSpeed;
+        }
+
         Vector3 movementVelocity = moveDirection;
         playerRigidbody.linearVelocity = movementVelocity;
 
