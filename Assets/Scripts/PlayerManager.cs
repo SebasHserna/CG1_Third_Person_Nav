@@ -4,21 +4,18 @@ public class PlayerManager : MonoBehaviour
 {
     InputManager inputManager;
     PlayerMovement PlayerMovement;
+    Animator animator;
+
+    public bool isInteracting;
 
     private void Awake()
     {
         inputManager = GetComponent<InputManager>();
         PlayerMovement = GetComponent<PlayerMovement>();
+        animator = GetComponent<Animator>();
 
     }
 
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -32,4 +29,10 @@ public class PlayerManager : MonoBehaviour
 
 
     }
+
+    private void LateUpdate()
+    {
+        isInteracting = animator.GetBool("isInteracting");
+    }
+
 }
